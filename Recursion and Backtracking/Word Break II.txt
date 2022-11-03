@@ -1,0 +1,27 @@
+#include <bits/stdc++.h> 
+
+void helper(string &s,set<string>&st,int idx,vector<string>&res,string curr){
+    if(idx==s.length()){
+        curr.pop_back();
+        res.push_back(curr);
+        return;
+    }
+    string temp="";
+    for(int i=idx;i<s.length();i++){
+        temp.push_back(s[i]);
+        if(st.count(temp)){
+            helper(s,st,i+1,res,curr+temp+" ");
+        }
+    }
+}
+
+vector<string> wordBreak(string &s, vector<string> &dictionary)
+{
+    // Write your code here
+    vector<string>res;
+    set<string>st(dictionary.begin(),dictionary.end());
+    helper(s,st,0,res,"");
+    return res;
+    
+
+}
