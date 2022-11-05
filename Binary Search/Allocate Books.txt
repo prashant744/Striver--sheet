@@ -1,0 +1,47 @@
+#include <bits/stdc++.h> 
+
+    
+bool helper(long long barrier,vector<int>&time,int n,int m){
+        long long noofdays=1;
+        long long chapter=0;
+        for(int i=0;i<m;i++){
+            chapter+=time[i];
+            if(chapter>barrier){
+                noofdays+=1;
+                chapter=time[i];
+            }
+            if(noofdays>n){
+                return false;
+            }
+        }
+        return true;
+    }
+
+long long ayushGivesNinjatest(int n, int m, vector<int> time) 
+{	
+	// Write your code here.
+    
+    if(m<n)return -1;
+    int maxval=INT_MIN;
+    long long sum=0;
+    for(int i=0;i<m;i++){
+        sum+=time[i];
+        maxval=max(maxval,time[i]);
+    }
+    
+    long long low=maxval;
+    long long high=sum;
+    long long res=-1;
+    
+    while(low<=high){
+        long long mid=(low+high)/2;
+        if(helper(mid,time,n,m)){
+            res=mid;
+            high=mid-1;
+        }else{
+            low=mid+1;
+        }
+    }
+    return res;
+    
+}
