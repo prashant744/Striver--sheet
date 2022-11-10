@@ -1,0 +1,14 @@
+#include <bits/stdc++.h> 
+void sortStack(stack<int> &stack)
+{
+	// Write your code here
+    priority_queue<int,vector<int>,greater<int>>p;
+    while(!stack.empty()){
+        p.push(stack.top());
+        stack.pop();
+    }
+    while(!p.empty()){
+        stack.push(p.top());
+        p.pop();
+    }
+}
