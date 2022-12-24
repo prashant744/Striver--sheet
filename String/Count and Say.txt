@@ -1,0 +1,25 @@
+class Solution {
+public:
+    string countAndSay(int n) {
+        if(n==1)return "1";
+        return helper(countAndSay(n-1));
+    }
+    string helper(string s){
+        string res="";
+        auto cur=s[0];
+        auto count=1;
+        for(int i=1;i<s.length();i++){
+            if(s[i]!=cur){
+                res+=to_string(count);
+                res+=cur;
+                cur=s[i];
+                count=1;
+            }else{
+                count++;
+            }
+        }
+        res+=to_string(count);
+        res+=cur;
+        return res;
+    }
+};
