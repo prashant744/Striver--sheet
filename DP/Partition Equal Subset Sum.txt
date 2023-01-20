@@ -1,0 +1,31 @@
+class Solution {
+public:
+    bool canPartition(vector<int>& nums) {
+        int sum=0;
+        for(int i=0;i<nums.size();i++){
+            sum+=nums[i];
+        }
+        if(sum%2)return false;
+        sum/=2;
+
+        vector<bool>dp(sum+1,false);
+        for(int i=0;i<nums.size()-1;i++){
+            dp[0]=true;
+        }
+        
+        if(nums[0]<sum)dp[nums[0]]=true;
+        for(int i=1; i<nums.size(); i++){
+            vector<bool>temp(sum+1, false);
+            for(int j=1; j<=sum; j++){
+                bool nt=dp[j];
+                bool t=false;
+                if(nums[i]<=j){
+                    t=dp[j-nums[i]];
+                }
+                temp[j]=(t|nt);
+            }
+            dp=temp;
+        }
+        return dp[sum];
+    }
+};

@@ -1,0 +1,23 @@
+vector<int> Solution::dNums(vector<int> &A, int B) {
+    vector<int>ans;
+    if(B>A.size()){
+        return ans;
+    }else{
+        unordered_map<int,int>m;
+        for(int i=0;i<B;i++){
+            m[A[i]]++;
+        }
+        ans.push_back(m.size());
+        
+        for(int i=1;i<A.size()-B+1;i++){
+            int temp=A[i-1];
+            m[temp]--;
+            if(m[temp]==0){
+                m.erase(temp);
+            }
+            m[A[i+B-1]]++;
+            ans.push_back(m.size());
+        }
+        return ans;
+    }
+}

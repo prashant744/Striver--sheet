@@ -1,0 +1,28 @@
+class Solution
+{
+	public:
+	//Function to find the shortest distance of all the vertices
+    //from the source vertex S.
+    vector <int> dijkstra(int V, vector<vector<int>> adj[], int S)
+    {
+        // Code here
+        vector<int>dist(V,INT_MAX);
+        vector<bool>vis(V,false);
+        dist[S]=0;
+        for(int count=0;count<V-1;count++){
+            int u=-1;
+            for(int i=0;i<V;i++){
+                if(vis[i]==false&&(u==-1||dist[i]<dist[u])){
+                    u=i;
+                }
+            }
+            vis[u]=true;
+            for(auto v:adj[u]){
+                if(vis[v[0]]==false){
+                    dist[v[0]]=min(dist[v[0]],dist[u]+v[1]);
+                }
+            }
+        }
+        return dist;
+    }
+};

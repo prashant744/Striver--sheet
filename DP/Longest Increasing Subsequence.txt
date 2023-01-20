@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        int n=nums.size();
+        if(n==0)return 0;
+        vector<int>top;
+
+        for(int val:nums){
+            int left=0,right=top.size()-1;
+
+            while(left<=right){
+                int mid=left+(right-left)/2;
+
+                if(val<top[mid]){
+                    right=mid-1;
+                }else if(val==top[mid]){
+                    right=mid-1;
+                }else if(val>top[mid]){
+                    left=mid+1;
+                }
+            }
+            if(left==top.size()){
+                top.push_back(val);
+            }else{
+                top[left]=val;
+            }
+        }
+        return top.size();
+    }
+};
