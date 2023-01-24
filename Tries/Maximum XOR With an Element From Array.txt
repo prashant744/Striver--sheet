@@ -1,0 +1,95 @@
+
+struct Node{
+    Node *links[2];
+
+    bool containsKey(int ind){
+        return (links[ind]!=NULL);
+    }
+
+    Node *get(int ind){
+        return links[ind];
+    }
+
+    void put(int ind,Node *node){
+        links[ind]=node;
+    }
+
+}; 
+
+class Trie{
+
+    private:Node *root;
+    public:
+    Trie(){
+        root=new Node();
+    }
+
+    public: void insert(int num){
+        Node *node=root;
+        for(int i=31;i>=0;i--){
+            int bit=(num>>i)&1;
+            if(!node->containsKey(bit)){
+                node->put(bit,new Node());
+            }
+            node=node->get(bit);
+        }
+    }
+
+    public: int findMax(int num){
+        Node *node=root;
+        int maxNum=0;
+        for(int i=31;i>=0;i--){
+            int bit=(num>>i)&1;
+            if(node->containsKey(!bit)){
+                maxNum=maxNum | (1<<i);
+                node=node->get(!bit);
+            }else{
+                node=node->get(bit);
+            }
+        }
+        return maxNum;
+    }
+
+};
+
+class Solution {
+public:
+    vector<int> maximizeXor(vector<int>& nums, vector<vector<int>>& queries) {
+        int n=nums.size();
+        int m=queries.size();
+        Trie trie;
+        vector<int>result(m,0);
+        sort(nums.begin(),nums.end());
+        for(int i=0;i<m;i++){
+            queries[i].push_back(i);
+        }
+        sort(queries.begin(),queries.end(),[](vector<int> &lhs, vector<int> &rhs){
+            return lhs[1]<rhs[1];
+        });
+
+        int i=0;
+        for(auto q:queries){
+            int x=q[0],a=q[1],ind=q[2];
+            while(i<n && nums[i]<=a){
+                trie.insert(nums[i]);
+                i++;
+            }
+            if(i==0)result[ind]=-1;
+            else{
+                result[ind]=trie.findMax(x);
+            }
+        }
+        return result;
+
+    }
+};
+
+
+
+
+
+
+
+
+
+

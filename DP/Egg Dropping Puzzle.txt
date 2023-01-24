@@ -1,0 +1,36 @@
+class Solution
+{
+    public:
+    //Function to find minimum number of attempts needed in 
+    //order to find the critical floor.
+int eggDrop(int n, int k) 
+
+    {
+
+        vector<int> prev(k+1, 0), cur(k+1, 0);
+       for(int i = 1; i<=n; i++){
+           for(int j = 0; j<=k; j++){
+               if(i == 1) {
+                   cur[j] = j;
+                   continue;
+               }
+               if(j == 1|| j == 0){
+                   cur[j] = j;
+                   continue;
+               }
+
+               int mini = 1e9;
+               for(int k = 1; k<=j; k++){
+                   int Break = 1 + prev[k-1];
+                   int notBreak = 1 + cur[j-k];
+                   int maxi = max(Break, notBreak);
+                   mini = min(maxi, mini);
+               }
+               cur[j] = mini;
+           }
+           prev = cur;
+       }
+       return prev[k];
+
+    }
+};
